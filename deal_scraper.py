@@ -2,6 +2,9 @@ from playwright.sync_api import sync_playwright
 import time
 import pandas as pd
 from functions import extract_hotel_details
+from datetime import datetime
+
+today = datetime.today().strftime('%Y-%m-%d')
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=False) # Use slow_mo=100 to slow down the browser
@@ -63,7 +66,7 @@ with sync_playwright() as p:
                                     columns=['name', 'city', 'price', 'checkin', 'checkout', 'rating', 'plan', 'star_rating', 'check_in', 'check_out', 'rooms', 'restaurants', 'bars'])
                         
             # Append the new row to the CSV file
-            with open('deals.csv', 'a', newline='', encoding='utf-8') as f:
+            with open(f'deals_{today}.csv', 'a', newline='', encoding='utf-8') as f:
                 new_row.to_csv(f, index=False, header=False)
 
             page.mouse.click(1,1)
